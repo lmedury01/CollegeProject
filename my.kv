@@ -76,12 +76,6 @@ WindowManager:
                 root.manager.transition.direction = "left"
 
         Button:
-            text: "View due subjects"
-            on_release:
-                app.root.current = "pending"
-                root.manager.transition.direction = "left"
-
-        Button:
             text: "Payment"
             on_release:
                 app.root.current = "payments"
@@ -90,7 +84,7 @@ WindowManager:
         Button:
             text: "Change Password"
             on_release:
-                app.root.current = "aquery"
+                app.root.current = "change"
                 root.manager.transition.direction = "left"
 
         Button:
