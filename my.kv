@@ -1,0 +1,297 @@
+WindowManager:
+
+    MainWindow:
+
+    SecondWindow:
+
+    NewUser:
+
+    LoginSuccess:
+
+    Include:
+
+    Profile:
+
+<MainWindow>:
+    name: "main"
+    uname:uname
+    passw:passw
+
+    GridLayout:
+        cols:1
+
+        GridLayout:
+            cols:2
+            size: root.width - 200, root.height - 200
+            pos:100,100
+
+            Label:
+                text: "Username: "
+
+            TextInput:
+                id: uname
+                multiline : False
+
+            Label:
+                text: " Password: "
+
+            TextInput:
+                id: passw
+                multiline : False
+
+        Button:
+            text:"Submit"
+            on_release:
+                root.validate()
+                root.manager.transition.direction = "left"
+
+
+        Button:
+            text:"Don't have an account? Create One"
+            on_release:
+                app.root.current = "register"
+                root.manager.transition.direction = "left"
+
+
+<SecondWindow>:
+    name: "second"
+
+    Button:
+        text: "Registration/Sign up failed. Please try again."
+        on_release:
+            app.root.current = "main"
+            root.manager.transition.direction = "right"
+
+<LoginSuccess>
+    name: "home"
+
+    GridLayout:
+        cols:1
+
+        Button:
+            text: "View Your CGPA"
+            on_release:
+                app.root.current = "profile"
+                root.manager.transition.direction = "left"
+
+        Button:
+            text: "View due subjects"
+            on_release:
+                app.root.current = "pending"
+                root.manager.transition.direction = "left"
+
+        Button:
+            text: "Payment"
+            on_release:
+                app.root.current = "query"
+                root.manager.transition.direction = "left"
+
+        Button:
+            text: "Change Password"
+            on_release:
+                app.root.current = "aquery"
+                root.manager.transition.direction = "left"
+
+        Button:
+            text: "Logout"
+            on_release:
+                app.root.current = "main"
+                root.manager.transition.direction = "left"
+
+<ChangePassword>:
+    name: "change"
+    existing:existing
+    password: password
+    repeatPassword: repeat
+
+
+    GridLayout:
+        cols:1
+
+        GridLayout:
+            cols:2
+
+
+            Label:
+
+                text: "Existing Password: "
+
+            TextInput:
+
+                id: existing
+                multiline : False
+
+            Label:
+
+                text: " New Password: "
+
+            TextInput:
+
+                id: password
+                multiline : False
+
+            Label:
+
+                text: " Repeat Password: "
+
+            TextInput:
+
+                id: repeat
+                multiline : False
+
+        Button:
+            pos_hint:{"x":0.2, "y": 0.05}
+            size_hint:0.6,0.1
+            text: "Change"
+            on_release:
+                root.modify()
+                app.root.current = "home"
+                root.manager.transition.direction = "down"
+
+
+<Profile>
+    name: "profile"
+
+    htno:htno
+    name1:name1
+    cgpa:cgpa
+
+    FloatLayout:
+        Label:
+            id: htno
+            pos_hint:{"x": 0.1, "top":1.05}
+            size_hint:0.8, 0.2
+            text: "Hall Ticket No: "
+
+        Label:
+            id: name1
+            pos_hint:{"x": 0.1, "top":0.95}
+            size_hint:0.8, 0.2
+            text: "Name: "
+
+        Label:
+            id: cgpa
+            pos_hint:{"x": 0.1, "top":0.85}
+            size_hint:0.8, 0.2
+            text: "CGPA: "
+
+        Button:
+            pos_hint:{"x":0.2, "y": 0.15}
+            size_hint:0.6,0.1
+            text: "Change Password"
+            on_release:
+                app.root.current = "change"
+                root.manager.transition.direction = "down"
+
+
+        Button:
+            pos_hint:{"x":0.2, "y": 0.05}
+            size_hint:0.6,0.1
+            text: "Home"
+            on_release:
+                app.root.current = "home"
+                root.manager.transition.direction = "down"
+
+
+
+
+
+<Include>:
+    name:"include"
+    task:task
+    deadline:deadline
+
+    GridLayout:
+        cols:1
+        padding: 10
+        spacing:10
+
+        GridLayout:
+            cols:2
+            size: root.width*0.8,root.height*0.8
+            Label:
+                text: "Task: "
+
+            TextInput:
+                id:task
+
+            Label:
+                text: "Deadline: "
+
+            TextInput:
+                id: deadline
+
+        Button:
+            text:"Submit"
+            root_default_height:40
+            root_force_default:True
+            width: 50
+            on_release:
+                root.set()
+                root.manager.transition.direction = "left"
+
+        Button:
+            text:"Home"
+            size: 100,100
+            on_release:
+                app.root.current="home"
+                root.manager.transition.direction = "left"
+
+
+
+<NewUser>:
+    name: "register"
+    name1: name
+    uname: uname
+    password: password
+    age:age
+
+    GridLayout:
+        cols:1
+
+        GridLayout:
+            cols:2
+
+
+            Label:
+                text: " Name: "
+
+            TextInput:
+                id: name
+                multiline : False
+
+            Label:
+                text: " Username: "
+
+            TextInput:
+                id: uname
+                multiline : False
+
+            Label:
+                text: " Password: "
+
+            TextInput:
+                id: password
+                multiline : False
+
+            Label:
+                text: " Repeat Password: "
+
+            TextInput:
+                id: passw
+                multiline : False
+
+            Label:
+                text: "Age: "
+
+            TextInput:
+                id: age
+                multiline : False
+
+
+
+        Button:
+            text:"Submit"
+            on_release:
+                root.save()
+                root.manager.transition.direction = "left"
