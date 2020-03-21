@@ -184,7 +184,10 @@ WindowManager:
     htno:htno
     name1:name1
     cgpa:cgpa
-
+    sem1:sem1
+    sem2:sem2
+    sem3:sem3
+    backlogs:backlogs
     FloatLayout:
         Label:
             id: htno
@@ -197,10 +200,29 @@ WindowManager:
             pos_hint:{"x": 0.1, "top":0.95}
             size_hint:0.8, 0.2
             text: "Name: "
-
+        Label:
+            id: sem1
+            pos_hint:{"x": 0.1, "top":0.85}
+            size_hint:0.8, 0.2
+            text: "Semester 1 percentage: "
+        Label:
+            id: sem2
+            pos_hint:{"x": 0.1, "top":0.75}
+            size_hint:0.8, 0.2
+            text: "Semester 2 percentage: "
+        Label:
+            id: sem3
+            pos_hint:{"x": 0.1, "top":0.65}
+            size_hint:0.8, 0.2
+            text: "Semester 3 percentage: "
+        Label:
+            id: backlogs
+            pos_hint:{"x": 0.1, "top":0.55}
+            size_hint:0.8, 0.2
+            text: "Backlogs: "
         Label:
             id: cgpa
-            pos_hint:{"x": 0.1, "top":0.85}
+            pos_hint:{"x": 0.1, "top":0.45}
             size_hint:0.8, 0.2
             text: "CGPA: "
 
@@ -226,6 +248,54 @@ WindowManager:
 
 <RegularFee>
     name: "regularfee"
+
+    htno:htno
+    name1:name1
+    fee:fee
+    status:status
+    FloatLayout:
+        Label:
+            id: htno
+            pos_hint:{"x": 0.1, "top":1.05}
+            size_hint:0.8, 0.2
+            text: "Hall Ticket No: "
+
+        Label:
+            id: name1
+            pos_hint:{"x": 0.1, "top":0.95}
+            size_hint:0.8, 0.2
+            text: "Name: "
+
+        Label:
+            id:fee
+            pos_hint:{"x": 0.1, "top":0.85}
+            size_hint:0.8, 0.2
+            text: "Fee:"
+
+        Label:
+            id:status
+            pos_hint:{"x": 0.1, "top":0.75}
+            size_hint:0.8, 0.2
+            text: "Status:"
+        Button:
+            pos_hint:{"x":0.2, "y": 0.15}
+            size_hint:0.6,0.1
+            text: "Pay Fee"
+            on_release:
+                root.pay()
+                app.root.current = "home"
+                root.manager.transition.direction = "down"
+
+
+        Button:
+            pos_hint:{"x":0.2, "y": 0.05}
+            size_hint:0.6,0.1
+            text: "Home"
+            on_release:
+                app.root.current = "home"
+                root.manager.transition.direction = "down"
+<CollegeFee>
+    name: "collegefee"
 
     htno:htno
     name1:name1
@@ -370,10 +440,10 @@ WindowManager:
 
 <NewUser>:
     name: "register"
-    name1: name
+    htno:htno
     uname: uname
     password: password
-    age:age
+    passw:passw
 
     GridLayout:
         cols:1
@@ -383,10 +453,10 @@ WindowManager:
 
 
             Label:
-                text: " Name: "
+                text: " Hall Ticket No: "
 
             TextInput:
-                id: name
+                id: htno
                 multiline : False
 
             Label:
@@ -411,14 +481,6 @@ WindowManager:
                 id: passw
                 multiline : False
                 password: True
-
-            Label:
-                text: "Age: "
-
-            TextInput:
-                id: age
-                multiline : False
-
 
 
         Button:
