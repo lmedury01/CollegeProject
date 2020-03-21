@@ -10,6 +10,7 @@ from kivy.properties import ObjectProperty
 from kivy.uix.popup import Popup
 from kivy.uix.label import Label
 from kivy.uix.screenmanager import ScreenManager, Screen
+from kivy.uix.textinput import TextInput
 
 mydb=mysql.connector.connect(
     host="localhost",
@@ -38,6 +39,7 @@ class MainWindow(Screen,Widget):
         if result[0] == var_passw:
             Profile.current=self.uname.text
             Profile.no=htno[0]
+            RegularFee.no=htno[0]
             ChangePassword.currentPassword=result[0]
             ChangePassword.username=var_uname
             PendingTasks.current=self.uname.text
@@ -181,6 +183,54 @@ class ChangePassword(Screen):
             self.repeatPassword.text = ""
 
 
+class Payments(Screen):
+    pass
+class CollegeFee(Screen):
+    pass
+class SupplementaryFee(Screen):
+    pass
+class RegularFee(Screen):
+    htno=ObjectProperty(None)
+    name1=ObjectProperty(None)
+    fee=ObjectProperty(None)
+    Status = ObjectProperty(None)
+    no=""
+    def on_enter(self, *args):
+        var_user = self.no
+        sqlFormula = """SELECT name From students WHERE htno=%s"""
+        mycursor.execute(sqlFormula, (var_user,))
+        thisName = mycursor.fetchone()
+        self.htno.text = "Hall Ticket No: " + var_user
+        self.name1.text = "Name : " + thisName[0]
+        self.fee.text="Fee: "+"1200"
+        sqlFormula = """SELECT status From regularfee WHERE htno=%s"""
+        mycursor.execute(sqlFormula, (var_user,))
+        thisStatus = mycursor.fetchone()
+        self.status.text="Status: "+thisStatus[0]
+
+    def pay(self):
+        sqlFormula = """SELECT status From regularfee WHERE htno=%s"""
+        mycursor.execute(sqlFormula, (self.no,))
+        thisStatus = mycursor.fetchone()
+        if thisStatus[0] == "Not Paid Yet":
+            sqlFormula = "UPDATE regularfee set status=%s WHERE htno=%s "
+            detail = ("Paid", self.no)
+            mycursor.execute(sqlFormula, detail)
+            mydb.commit()
+            sm.current = "main"
+            pop = Popup(title='Payment Done',
+                        content=Label(text='Payment has been processed succesfully'),
+                        size_hint=(None, None), size=(400, 400))
+
+            pop.open()
+
+        else:
+            pop = Popup(title='Payment Already Done',
+                        content=Label(text='No fee due'),
+                        size_hint=(None, None), size=(400, 400))
+
+            pop.open()
+
 
 class PendingTasks(RecycleView,Screen):
     pass
@@ -190,7 +240,8 @@ class WindowManager(ScreenManager):
 
 kv= Builder.load_file("/home/lmedury/PycharmProjects/DoList/my.kv")
 sm=WindowManager()
-screens = [MainWindow(name="main"), LoginSuccess(name="home"), NewUser(name="register"), Profile(name="profile"), Include(name="include"), PendingTasks(name="pending"), ChangePassword(name="change")]
+screens = [MainWindow(name="main"), LoginSuccess(name="home"), NewUser(name="register"), Profile(name="profile"), Include(name="include"), PendingTasks(name="pending"), ChangePassword(name="change"),
+           Payments(name="payments"), CollegeFee(name="collegefee"), RegularFee(name="regularfee"), SupplementaryFee(name="supplementaryfee")]
 for screen in screens:
     sm.add_widget(screen)
 

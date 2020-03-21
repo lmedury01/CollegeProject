@@ -38,6 +38,7 @@ WindowManager:
             TextInput:
                 id: passw
                 multiline : False
+                password: True
 
         Button:
             text:"Submit"
@@ -83,7 +84,7 @@ WindowManager:
         Button:
             text: "Payment"
             on_release:
-                app.root.current = "query"
+                app.root.current = "payments"
                 root.manager.transition.direction = "left"
 
         Button:
@@ -97,7 +98,35 @@ WindowManager:
             on_release:
                 app.root.current = "main"
                 root.manager.transition.direction = "left"
+<Payments>
+    name: "payments"
 
+    GridLayout:
+        cols:1
+
+        Button:
+            text: "Pay College Fee"
+            on_release:
+                app.root.current = "collegefee"
+                root.manager.transition.direction = "left"
+
+        Button:
+            text: "Pay Regular Exam Fee"
+            on_release:
+                app.root.current = "regularfee"
+                root.manager.transition.direction = "left"
+
+        Button:
+            text: "Pay Supplementary Exam Fee"
+            on_release:
+                app.root.current = "supplementaryfee"
+                root.manager.transition.direction = "left"
+
+        Button:
+            text: "Home"
+            on_release:
+                app.root.current = "home"
+                root.manager.transition.direction = "left"
 <ChangePassword>:
     name: "change"
     existing:existing
@@ -120,24 +149,25 @@ WindowManager:
 
                 id: existing
                 multiline : False
+                password: True
 
             Label:
 
                 text: " New Password: "
 
             TextInput:
-
                 id: password
                 multiline : False
+                password: True
 
             Label:
 
                 text: " Repeat Password: "
 
             TextInput:
-
                 id: repeat
                 multiline : False
+                password: True
 
         Button:
             pos_hint:{"x":0.2, "y": 0.05}
@@ -145,7 +175,6 @@ WindowManager:
             text: "Change"
             on_release:
                 root.modify()
-                app.root.current = "home"
                 root.manager.transition.direction = "down"
 
 
@@ -194,6 +223,55 @@ WindowManager:
 
 
 
+
+<RegularFee>
+    name: "regularfee"
+
+    htno:htno
+    name1:name1
+    fee:fee
+    status:status
+    FloatLayout:
+        Label:
+            id: htno
+            pos_hint:{"x": 0.1, "top":1.05}
+            size_hint:0.8, 0.2
+            text: "Hall Ticket No: "
+
+        Label:
+            id: name1
+            pos_hint:{"x": 0.1, "top":0.95}
+            size_hint:0.8, 0.2
+            text: "Name: "
+
+        Label:
+            id:fee
+            pos_hint:{"x": 0.1, "top":0.85}
+            size_hint:0.8, 0.2
+            text: "Fee:"
+
+        Label:
+            id:status
+            pos_hint:{"x": 0.1, "top":0.75}
+            size_hint:0.8, 0.2
+            text: "Status:"
+        Button:
+            pos_hint:{"x":0.2, "y": 0.15}
+            size_hint:0.6,0.1
+            text: "Pay Fee"
+            on_release:
+                root.pay()
+                app.root.current = "home"
+                root.manager.transition.direction = "down"
+
+
+        Button:
+            pos_hint:{"x":0.2, "y": 0.05}
+            size_hint:0.6,0.1
+            text: "Home"
+            on_release:
+                app.root.current = "home"
+                root.manager.transition.direction = "down"
 
 
 <Include>:
@@ -273,6 +351,7 @@ WindowManager:
             TextInput:
                 id: password
                 multiline : False
+                password: True
 
             Label:
                 text: " Repeat Password: "
@@ -280,6 +359,7 @@ WindowManager:
             TextInput:
                 id: passw
                 multiline : False
+                password: True
 
             Label:
                 text: "Age: "
