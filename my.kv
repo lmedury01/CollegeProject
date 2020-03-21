@@ -272,7 +272,58 @@ WindowManager:
             on_release:
                 app.root.current = "home"
                 root.manager.transition.direction = "down"
+<SupplementaryFee>
+    name: "supplementaryfee"
+    subjects:subjects
+    htno:htno
+    name1:name1
+    fee:fee
+    status:status
+    FloatLayout:
+        Label:
+            id: htno
+            pos_hint:{"x": 0.1, "top":1.05}
+            size_hint:0.8, 0.2
+            text: "Hall Ticket No: "
+        Label:
+            id: name1
+            pos_hint:{"x": 0.1, "top":0.95}
+            size_hint:0.8, 0.2
+            text: "Name: "
+        Label:
+            id: subjects
+            pos_hint:{"x": 0.1, "top":0.85}
+            size_hint:0.8, 0.2
+            text: "Subjects Due: "
 
+
+        Label:
+            id:fee
+            pos_hint:{"x": 0.1, "top":0.75}
+            size_hint:0.8, 0.2
+            text: "Fee:"
+
+        Label:
+            id:status
+            pos_hint:{"x": 0.1, "top":0.65}
+            size_hint:0.8, 0.2
+            text: "Status:"
+
+        Button:
+            pos_hint:{"x":0.2, "y": 0.15}
+            size_hint:0.6,0.1
+            text: "Pay Fee"
+            on_release:
+                root.pay()
+                app.root.current = "home"
+                root.manager.transition.direction = "down"
+        Button:
+            pos_hint:{"x":0.2, "y": 0.05}
+            size_hint:0.6,0.1
+            text: "Home"
+            on_release:
+                app.root.current = "home"
+                root.manager.transition.direction = "down"
 
 <Include>:
     name:"include"

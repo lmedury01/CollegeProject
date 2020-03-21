@@ -40,6 +40,7 @@ class MainWindow(Screen,Widget):
             Profile.current=self.uname.text
             Profile.no=htno[0]
             RegularFee.no=htno[0]
+            SupplementaryFee.no=htno[0]
             ChangePassword.currentPassword=result[0]
             ChangePassword.username=var_uname
             PendingTasks.current=self.uname.text
@@ -136,7 +137,7 @@ class Profile(Screen):
         thisCgpa = mycursor.fetchone()
         self.htno.text = "Hall Ticket No: " +var_user
         self.name1.text = "Name : " + thisName[0]
-        self.cgpa.text= "Name: " + str(thisCgpa[0])
+        self.cgpa.text= "CGPA: " + str(thisCgpa[0])
 
 class ChangePassword(Screen):
     existing=ObjectProperty(None)
@@ -231,7 +232,55 @@ class RegularFee(Screen):
 
             pop.open()
 
+class SupplementaryFee(Screen):
+    htno = ObjectProperty(None)
+    name1 = ObjectProperty(None)
+    fee = ObjectProperty(None)
+    Status = ObjectProperty(None)
+    no = ""
 
+    def on_enter(self, *args):
+        var_user = self.no
+        sqlFormula = """SELECT name From students WHERE htno=%s"""
+        mycursor.execute(sqlFormula, (var_user,))
+        thisName = mycursor.fetchone()
+        sqlFormula = """SELECT subjects From supplementaryfee WHERE htno=%s"""
+        mycursor.execute(sqlFormula, (var_user,))
+        thisSubjects = mycursor.fetchone()
+        self.htno.text = "Hall Ticket No: " + var_user
+        self.name1.text = "Name : " + thisName[0]
+        self.subjects.text="Subjects Due: "+str(thisSubjects[0])
+        sqlFormula = """SELECT fee From supplementaryfee WHERE htno=%s"""
+        mycursor.execute(sqlFormula, (var_user,))
+        thisFee = mycursor.fetchone()
+        self.fee.text = "Fee: " + str(thisFee[0])
+        sqlFormula = """SELECT status From supplementaryfee WHERE htno=%s"""
+        mycursor.execute(sqlFormula, (var_user,))
+        thisStatus = mycursor.fetchone()
+        self.status.text="Status: "+thisStatus[0]
+
+    def pay(self):
+        sqlFormula = """SELECT status From supplementaryfee WHERE htno=%s"""
+        mycursor.execute(sqlFormula, (self.no,))
+        thisStatus = mycursor.fetchone()
+        if thisStatus[0] == "Not Paid Yet":
+            sqlFormula = "UPDATE supplementaryfee set status=%s,fee=0 WHERE htno=%s "
+            detail = ("Paid", self.no)
+            mycursor.execute(sqlFormula, detail)
+            mydb.commit()
+            sm.current = "main"
+            pop = Popup(title='Payment Done',
+                        content=Label(text='Payment has been processed succesfully'),
+                        size_hint=(None, None), size=(400, 400))
+
+            pop.open()
+
+        else:
+            pop = Popup(title='Payment Already Done',
+                        content=Label(text='No fee due'),
+                        size_hint=(None, None), size=(400, 400))
+
+            pop.open()
 class PendingTasks(RecycleView,Screen):
     pass
 
